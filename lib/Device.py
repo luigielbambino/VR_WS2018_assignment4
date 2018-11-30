@@ -87,7 +87,12 @@ class BlueSpacemouseInput(MultiDofInput):
         _rx = self.device_sensor.Value3.value
         _ry = self.device_sensor.Value4.value * -1.0
         _rz = self.device_sensor.Value5.value
-
+        #print(_x)
+        #print(_y)
+        #print(_z)
+        #print(_rx)
+        #print(_ry)
+        #print(_rz)
         if SpacemouseType.SPACEMOUSE_TYPE == 'blue':
             if _x != 0.0:
                 _x = self.filter_channel(_x, 0.0, -350.0, 350.0, 3, 3)

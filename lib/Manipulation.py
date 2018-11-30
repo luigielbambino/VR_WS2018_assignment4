@@ -184,8 +184,11 @@ class ManipulationManager(avango.script.Script):
                 _node.CurrentColor.value = avango.gua.Vec4(1.0, 0.0, 0.0, 1.0)
                 _node.Material.value.set_uniform("Color", _node.CurrentColor.value) # switch to dragging material
                 self.dragged_objects_list.append(_node) # add node for dragging
-          
+                
                 ## TODO: add code if necessary
+                self.SCENE_ROOT.Children.value.remove(_node)
+                self.hand_transform.Children.value.append(_node)
+                _node.Transform.value = avango.gua.make_inverse_mat(_hand_mat) * _node.Transform.value
 
 
     ## This function is called while the dragging button
@@ -194,19 +197,23 @@ class ManipulationManager(avango.script.Script):
         pass
         ## TODO: add code if necessary
 
-  
+            
 
     ## This function is called when the dragging button
     ## (e.g. mouse button for isotonic input) is released
     def stop_dragging(self):  
         ## handle all dragged objects
+        _hand_mat_pos = self.hand_transform.WorldTransform.value
         for _node in self.dragged_objects_list:      
             _node.CurrentColor.value = avango.gua.Vec4(0.0, 1.0, 0.0, 1.0)
             _node.Material.value.set_uniform("Color", _node.CurrentColor.value) # switch to highlight material
-    
+            self.hand_transform.Children.value.remove(_node)
+            self.SCENE_ROOT.Children.value.append(_node)
+            _node.Transform.value = _hand_mat_pos * _node.Transform.value
         self.dragged_objects_list = [] # clear list
 
         ## TODO: add code if necessary
+
 
  
     ########################## End of Exercise 4.2
